@@ -7,10 +7,10 @@ site_description: >-
   documentation of your Open Source or commercial project
 
 # Repository
-repo_name: hexiaowen.com
-repo_url: https://github.com/hexiaowen/hexiaowen
+repo_name: hexiaowen
+repo_url: https://github.com/hexiaowen/hexiaowen.github.io
 edit_uri: ""
-remote_branch: 'main'
+remote_branch: 'master'
 
 # Copyright
 copyright: Copyright &copy; 2016 - 2021 overweight
