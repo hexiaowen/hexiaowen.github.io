@@ -125,14 +125,15 @@ markdown_extensions:
 
 # Page tree here
 nav:
-  - 程序人生: index.md
+  - 程序人生:
+    - 个人简介: intro.md
   - 拥抱开源:
     - 开源指北: opensource/opensource.md
     - Awesome List: opensource/awsomelist.md
     - openEuler之旅: opensource/openEuler/my_traval_of_openeuler.md
   - 学习笔记:
-    - 开源指北: opensource/opensource.md
+    - 个人简介: intro.md
   - 技术博客:
-    - 开源指北: opensource/opensource.md
+    - 个人简介: intro.md
   - 生活随笔:
-    - 开源指北: opensource/opensource.md
+    - 个人简介: intro.md
