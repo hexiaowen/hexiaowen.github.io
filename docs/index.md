@@ -1,1 +1,1 @@
-![](assets/intro.png)
+![](assets/intro-2.png)

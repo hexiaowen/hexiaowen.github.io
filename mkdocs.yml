@@ -78,7 +78,6 @@ plugins:
 extra:
   analytics:
     provider: google
-    property: !ENV GOOGLE_ANALYTICS_KEY
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/hexiaowen
@@ -100,9 +99,6 @@ markdown_extensions:
       smart_enable: all
   - pymdownx.caret
   - pymdownx.details
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.keys
@@ -149,3 +145,5 @@ nav:
     - 开源指北: opensource/opensource.md
     - Awesome List: opensource/awsomelist.md
     - openEuler之旅: opensource/openEuler/my_traval_of_openeuler.md
+  - 学习笔记:
+    - learning-rust: notes/learning-rust.md
