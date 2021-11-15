@@ -1,6 +1,6 @@
 # Project information
 site_name: overweight
-site_url: https://hexiaowen.cn
+site_url: http://hexiaowen.cn
 site_author: overweight
 site_description: >-
   This guy is so lazy!
@@ -36,7 +36,7 @@ theme:
     # - navigation.expand
     - navigation.indexes
     # - navigation.instant
-    - navigation.sections
+    #- navigation.sections
     - navigation.tabs
     # - navigation.tabs.sticky
     - navigation.top
@@ -136,7 +136,6 @@ markdown_extensions:
 
 
 
-
 # Page tree here
 nav:
   - 程序人生:
@@ -146,4 +145,5 @@ nav:
     - Awesome List: opensource/awsomelist.md
     - openEuler之旅: opensource/openEuler/my_traval_of_openeuler.md
   - 学习笔记:
-    - learning-rust: notes/learning-rust.md
+    - learning-rust:
+      - rust modules: notes/learning-rust/rust-modules.md
