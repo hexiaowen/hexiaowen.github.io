@@ -8,7 +8,7 @@ site_description: >-
 # Repository
 repo_name: hexiaowen
 repo_url: https://github.com/hexiaowen/hexiaowen.github.io
-edit_uri: ""
+edit_uri: "edit/master/docs/"
 remote_branch: 'gh-pages'
 
 # Copyright
@@ -146,4 +146,5 @@ nav:
     - openEuler之旅: opensource/openEuler/my_traval_of_openeuler.md
   - 学习笔记:
     - learning-rust:
-      - rust modules: notes/learning-rust/rust-modules.md
+      - 模块划分: notes/learning-rust/rust-modules.md
+      - 所有权: notes/learning-rust/rust-ownership.md
