@@ -81,6 +81,7 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/hexiaowen
+  disqus: overweight
 
 # Extensions
 markdown_extensions:
