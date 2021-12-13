@@ -38,7 +38,7 @@
 |                          | 单线程 |  Rc\<RefCell\<T\>\>     |     v.borrow()       |    v.borrow_mut()      |
 | | | | | |
 | 共享所有权（内部可见性） | 多线程 |   Arc\<T\>    |     &Arc\<T\>        |    无法得到      |
-|                      | 多线程 |  Arc\<Mutex\<T\>\>     |    v.lock()         |   v.lock      |
+|                      | 多线程 |  Arc\<Mutex\<T\>\>     |    v.lock()         |   v.lock（）      |
 |                      | 多线程 |  Arc\<RwLock\<T\>\>    |     v.read()       |    v.borrow()     |
 
 Rc 比 Arc性能效率高， 外部可见性应对编译期检查；内部可见性应对运行时检查，检查不过会panic
