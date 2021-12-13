@@ -1,19 +1,3 @@
-<div align="center">
-	<img width="500" height="350" src="media/logo.svg" alt="Awesome">
-	<br>
-	<p>
-		<p>
-			<sup>
-				<a href="https://github.com/sponsors/sindresorhus">My open source work is supported by the community</a>
-			</sup>
-		</p>
-		<br>
-		<br>
-	</p>
-	<br>
-	<br>
-</div>
-
 <p align="center">
 	<a href="awesome.md">What is an awesome list?</a>&nbsp;&nbsp;&nbsp;
 	<a href="contributing.md">Contribution guide</a>&nbsp;&nbsp;&nbsp;
