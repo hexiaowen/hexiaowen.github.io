@@ -38,6 +38,8 @@ jobs:
           gitee-repo: overweight/overweight
           # 要部署的分支，默认是 master，若是其他分支，则需要指定（指定的分支必须存在）
           branch: gh-pages
+          timeout_minutes: 10
+          max_attempts: 3
 
       - name: reload gitee pages
         uses: mizuka-wu/gitee-pages-action@v1.0.0
@@ -46,4 +48,17 @@ jobs:
           cookie: ${{ secrets.GITEE_COOKIE }}
           branch: gh-pages
           #directory: src
+          https: true
+          timeout_minutes: 10
+          max_attempts: 3
+
+      - name: another rebuild pages
+        uses: okou19900722/gitee-pages@v1
+        with:
+          username: overweight
+          password: ${{ secrets.GITEE_PASSWORD }}
+          repository: overweight/overweight
+          branch: gh-pages
+          #directory: "需要发布的目录"
+          #是否开启https
           https: true
