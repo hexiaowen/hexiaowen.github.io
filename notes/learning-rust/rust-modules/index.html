@@ -1,0 +1,1102 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This guy is so lazy!">
+      
+      
+      
+        <meta name="author" content="overweight">
+      
+      
+        <link rel="canonical" href="http://hexiaowen.cn/notes/learning-rust/rust-modules/">
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>模块划分 - overweight</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.f98371ca.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+  
+
+
+  
+
+  
+
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="red">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sheshs-blog" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="overweight" class="md-header__button md-logo" aria-label="overweight" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            overweight
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              模块划分
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/hexiaowen/hexiaowen.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hexiaowen
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        首页
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../opensource/opensource/" class="md-tabs__link">
+        开源
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../software/systemd/" class="md-tabs__link">
+        软件
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        笔记
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="overweight" class="md-nav__button md-logo" aria-label="overweight" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    overweight
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/hexiaowen/hexiaowen.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hexiaowen
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">首页</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="首页" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          首页
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          开源
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="开源" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          开源
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../opensource/opensource/" class="md-nav__link">
+        开源指北
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../opensource/awsomelist/" class="md-nav__link">
+        Awesome List
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../opensource/openEuler/my_traval_of_openeuler/" class="md-nav__link">
+        openEuler之旅
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          软件
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="软件" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          软件
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software/systemd/" class="md-nav__link">
+        systemd
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          笔记
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="笔记" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          笔记
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          learning-rust
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="learning-rust" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          learning-rust
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        模块划分
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rust-ownership/" class="md-nav__link">
+        所有权
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rust-lifetime/" class="md-nav__link">
+        生命周期
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rust-errorhandling/" class="md-nav__link">
+        错误处理
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/hexiaowen/hexiaowen.github.io/edit/master/docs/notes/learning-rust/rust-modules.md" title="编辑此页" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="sheshs-blog"><a href="https://www.sheshbabu.com/">Shesh's blog</a><a class="headerlink" href="#sheshs-blog" title="Permanent link">#</a></h1>
+<h1 id="_1">总结<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
+<ol>
+<li>模块系统是显式的(需要明确的声明)——不存在和文件系统的1:1映射</li>
+<li>在文件的父级目录把它声明为模块，而不是在文件自身</li>
+<li>mod关键字和mod.rs用于声明子模块</li>
+<li>super关键字指向父级作用域</li>
+<li>pub关键字把事物声明为公开的，如将函数、结构体等声明为公开的，这样其他模块才可访问</li>
+<li>use关键字用于简化(缩短)模块路径</li>
+<li>不需要显式声明第三方的模块</li>
+</ol>
+<h1 id="clear-explanation-of-rusts-module-system">Clear explanation of Rust’s module system<a class="headerlink" href="#clear-explanation-of-rusts-module-system" title="Permanent link">#</a></h1>
+<p>Rust’s module system is surprisingly confusing and causes a lot of frustration for beginners.</p>
+<p>In this post, I’ll explain the module system using practical examples so you get a clear understanding of how it works and can immediately start applying this in your projects.</p>
+<p>Since Rust’s module system is quite unique, I request the reader to read this post with an open mind and resist comparing it with how modules work in other languages.</p>
+<p>Let’s use this file structure to simulate a real world project:</p>
+<div class="highlight"><pre><span></span><code>my_project
+├── Cargo.toml
+└─┬ src
+  ├── main.rs
+  ├── config.rs
+  ├─┬ routes
+  │ ├── health_route.rs
+  │ └── user_route.rs
+  └─┬ models
+    └── user_model.rs
+</code></pre></div>
+<p>These are the different ways we should be able to consume our modules:</p>
+<p><img alt="img" src="https://www.sheshbabu.com/images/2020-rust-module-system/rust-module-system-1.png" /></p>
+<p>These 3 examples should be sufficient to explain how Rust’s module system works.</p>
+<h2 id="example-1">Example 1<a class="headerlink" href="#example-1" title="Permanent link">#</a></h2>
+<p>Let’s start with the first example - importing <code>config.rs</code> in <code>main.rs</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// main.rs</span>
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;main&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// config.rs</span>
+<span class="k">fn</span> <span class="nf">print_config</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>The first mistake that everyone makes is just because we have files like <code>config.rs</code>, <code>health_route.rs</code> etc, we think that these files are <code>modules</code> and we can import them from other files.</p>
+<p>Here’s what we see (file system tree) and what the compiler sees (module tree):</p>
+<p><img alt="img" src="https://www.sheshbabu.com/images/2020-rust-module-system/rust-module-system-2.png" /></p>
+<p>Surprisingly, the compiler only sees the <code>crate</code> module which is our <code>main.rs</code> file. This is because we need to explicitly build the module tree in Rust - there’s no implicit mapping between file system tree to module tree.</p>
+<blockquote>
+<p>We need to explicitly build the module tree in Rust, there’s no implicit mapping to file system</p>
+</blockquote>
+<p>To add a file to the module tree, we need to declare that file as a submodule using the <code>mod</code> keyword. The next thing that confuses people is that you would assume we declare a file as module in the same file. But we need to declare this in a different file! Since we only have <code>main.rs</code> in the module tree, let’s declare <code>config.rs</code> as a submodule in <code>main.rs</code>.</p>
+<blockquote>
+<p>The mod keyword declares a submodule</p>
+</blockquote>
+<p>The <code>mod</code> keyword has this syntax:</p>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">my_module</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>Here, the compiler looks for <code>my_module.rs</code> or <code>my_module/mod.rs</code> in the same directory.</p>
+<div class="highlight"><pre><span></span><code>my_project
+├── Cargo.toml
+└─┬ src
+  ├── main.rs
+  └── my_module.rs
+
+or
+
+my_project
+├── Cargo.toml
+└─┬ src
+  ├── main.rs
+  └─┬ my_module
+    └── mod.rs
+</code></pre></div>
+<p>Since <code>main.rs</code> and <code>config.rs</code> are in the same directory, let’s declare the config module as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="w">// main.rs</span>
+<span class="gi">+ mod config;</span><span class="w"></span>
+
+<span class="w">fn main() {</span>
+<span class="gi">+ config::print_config();</span><span class="w"></span>
+<span class="w"> </span> println!(&quot;main&quot;);<span class="w"></span>
+<span class="w">}</span>
+<span class="w">// config.rs</span>
+<span class="w">fn print_config() {</span>
+<span class="w"> </span> println!(&quot;config&quot;);<span class="w"></span>
+<span class="w">}</span>
+</code></pre></div>
+<p>We’re accessing the <code>print_config</code> function using the <code>::</code> syntax.</p>
+<p>Here’s how the module tree looks like:</p>
+<p><img alt="img" src="https://www.sheshbabu.com/images/2020-rust-module-system/rust-module-system-3.png" /></p>
+<p>We’ve successfully declared the <code>config</code> module! But this is not sufficient to be able to call the <code>print_config</code> function inside <code>config.rs</code>. Almost everything in Rust is private by default, we need to make the function public using the <code>pub</code> keyword:</p>
+<blockquote>
+<p>The pub keyword makes things public</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="c1">// main.rs</span>
+<span class="k">mod</span> <span class="nn">config</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">config</span>::<span class="n">print_config</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;main&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// config.rs</span>
+<span class="o">-</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_config</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="o">+</span><span class="w"> </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_config</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Now, this works. We’ve successfully called a function defined in a different file!</p>
+<h2 id="example-2">Example 2<a class="headerlink" href="#example-2" title="Permanent link">#</a></h2>
+<p>Let’s try calling the <code>print_health_route</code> function defined in <code>routes/health_route.rs</code> from <code>main.rs</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// main.rs</span>
+<span class="k">mod</span> <span class="nn">config</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">config</span>::<span class="n">print_config</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;main&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// routes/health_route.rs</span>
+<span class="k">fn</span> <span class="nf">print_health_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;health_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>As we discussed earlier, we can use the <code>mod</code> keyword only for <code>my_module.rs</code> or <code>my_module/mod.rs</code> in the same directory.</p>
+<p>So in order to call functions inside <code>routes/health_route.rs</code> from <code>main.rs</code>, we need to do the following things:</p>
+<ul>
+<li>Create a file named <code>routes/mod.rs</code> and declare the <code>routes</code> submodule in <code>main.rs</code></li>
+<li>Declare the <code>health_route</code> submodule in <code>routes/mod.rs</code> and make it public</li>
+<li>Make the functions inside <code>health_route.rs</code> public</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="w">my_project</span>
+<span class="w">├── Cargo.toml</span>
+<span class="w">└─┬ src</span>
+<span class="w"> </span> ├── main.rs<span class="w"></span>
+<span class="w"> </span> ├── config.rs<span class="w"></span>
+<span class="w"> </span> ├─┬ routes<span class="w"></span>
+<span class="gi">+ │ ├── mod.rs</span><span class="w"></span>
+<span class="w"> </span> │ ├── health_route.rs<span class="w"></span>
+<span class="w"> </span> │ └── user_route.rs<span class="w"></span>
+<span class="w"> </span> └─┬ models<span class="w"></span>
+<span class="w"> </span>   └── user_model.rs<span class="w"></span>
+<span class="w">// main.rs</span>
+<span class="w">mod config;</span>
+<span class="gi">+ mod routes;</span><span class="w"></span>
+
+<span class="w">fn main() {</span>
+<span class="gi">+ routes::health_route::print_health_route();</span><span class="w"></span>
+<span class="w"> </span> config::print_config();<span class="w"></span>
+<span class="w"> </span> println!(&quot;main&quot;);<span class="w"></span>
+<span class="w">}</span>
+<span class="w">// routes/mod.rs</span>
+<span class="gi">+ pub mod health_route;</span><span class="w"></span>
+<span class="w">// routes/health_route.rs</span>
+<span class="gd">- fn print_health_route() {</span><span class="w"></span>
+<span class="gi">+ pub fn print_health_route() {</span><span class="w"></span>
+<span class="w"> </span> println!(&quot;health_route&quot;);<span class="w"></span>
+<span class="w">}</span>
+</code></pre></div>
+<p>Here’s how the module tree looks like:</p>
+<p><img alt="img" src="https://www.sheshbabu.com/images/2020-rust-module-system/rust-module-system-4.png" /></p>
+<p>We can now call a function defined in a file inside a folder.</p>
+<h2 id="example-3">Example 3<a class="headerlink" href="#example-3" title="Permanent link">#</a></h2>
+<p>Let’s try calling from <code>main.rs =&gt; routes/user_route.rs =&gt; models/user_model.rs</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// main.rs</span>
+<span class="k">mod</span> <span class="nn">config</span><span class="p">;</span><span class="w"></span>
+<span class="k">mod</span> <span class="nn">routes</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">routes</span>::<span class="n">health_route</span>::<span class="n">print_health_route</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">config</span>::<span class="n">print_config</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;main&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// routes/user_route.rs</span>
+<span class="k">fn</span> <span class="nf">print_user_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;user_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// models/user_model.rs</span>
+<span class="k">fn</span> <span class="nf">print_user_model</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;user_model&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>We want to call the function <code>print_user_model</code> from <code>print_user_route</code> from <code>main</code>.</p>
+<p>Let’s make the same changes as before - declaring submodules, making functions public and adding the <code>mod.rs</code> file.</p>
+<div class="highlight"><pre><span></span><code><span class="w">my_project</span>
+<span class="w">├── Cargo.toml</span>
+<span class="w">└─┬ src</span>
+<span class="w"> </span> ├── main.rs<span class="w"></span>
+<span class="w"> </span> ├── config.rs<span class="w"></span>
+<span class="w"> </span> ├─┬ routes<span class="w"></span>
+<span class="w"> </span> │ ├── mod.rs<span class="w"></span>
+<span class="w"> </span> │ ├── health_route.rs<span class="w"></span>
+<span class="w"> </span> │ └── user_route.rs<span class="w"></span>
+<span class="w"> </span> └─┬ models<span class="w"></span>
+<span class="gi">+   ├── mod.rs</span><span class="w"></span>
+<span class="w"> </span>   └── user_model.rs<span class="w"></span>
+<span class="w">// main.rs</span>
+<span class="w">mod config;</span>
+<span class="w">mod routes;</span>
+<span class="gi">+ mod models;</span><span class="w"></span>
+
+<span class="w">fn main() {</span>
+<span class="w"> </span> routes::health_route::print_health_route();<span class="w"></span>
+<span class="gi">+ routes::user_route::print_user_route();</span><span class="w"></span>
+<span class="w"> </span> config::print_config();<span class="w"></span>
+<span class="w"> </span> println!(&quot;main&quot;);<span class="w"></span>
+<span class="w">}</span>
+<span class="w">// routes/mod.rs</span>
+<span class="w">pub mod health_route;</span>
+<span class="gi">+ pub mod user_route;</span><span class="w"></span>
+<span class="w">// routes/user_route.rs</span>
+<span class="gd">- fn print_user_route() {</span><span class="w"></span>
+<span class="gi">+ pub fn print_user_route() {</span><span class="w"></span>
+<span class="w"> </span> println!(&quot;user_route&quot;);<span class="w"></span>
+<span class="w">}</span>
+<span class="w">// models/mod.rs</span>
+<span class="gi">+ pub mod user_model;</span><span class="w"></span>
+<span class="w">// models/user_model.rs</span>
+<span class="gd">- fn print_user_model() {</span><span class="w"></span>
+<span class="gi">+ pub fn print_user_model() {</span><span class="w"></span>
+<span class="w"> </span> println!(&quot;user_model&quot;);<span class="w"></span>
+<span class="w">}</span>
+</code></pre></div>
+<p>Here’s how the module tree looks like:</p>
+<p><img alt="img" src="https://www.sheshbabu.com/images/2020-rust-module-system/rust-module-system-5.png" /></p>
+<p>Wait, we haven’t actually called <code>print_user_model</code> from <code>print_user_route</code>! So far, we’ve only called the functions defined in other modules from <code>main.rs</code>, how do we do that from other files?</p>
+<p>If we look at our module tree, the <code>print_user_model</code> function sits in the <code>crate::models::user_model</code> path. So in order to use a module in files that are not <code>main.rs</code>, we should think in terms of the path necessary to reach that module in the module tree.</p>
+<div class="highlight"><pre><span></span><code><span class="w">// routes/user_route.rs</span>
+<span class="w">pub fn print_user_route() {</span>
+<span class="gi">+ crate::models::user_model::print_user_model();</span><span class="w"></span>
+<span class="w"> </span> println!(&quot;user_route&quot;);<span class="w"></span>
+<span class="w">}</span>
+</code></pre></div>
+<p>We’ve successfully called a function defined in a file from a file that’s not <code>main.rs</code>.</p>
+<h2 id="super">super<a class="headerlink" href="#super" title="Permanent link">#</a></h2>
+<p>The fully qualified name gets too lengthy if our file organization is multiple directories deep. Let’s say for whatever reason, we want to call <code>print_health_route</code> from <code>print_user_route</code>. These are under the paths <code>crate::routes::health_route</code> and <code>crate::routes::user_route</code> respectively.</p>
+<p>We can call it by using the fully qualified name <code>crate::routes::health_route::print_health_route()</code> but we can also use a relative path <code>super::health_route::print_health_route();</code>. Notice that we’ve used <code>super</code> to refer to the parent scope.</p>
+<blockquote>
+<p>The super keyword in module path refers to the parent scope</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_user_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">crate</span>::<span class="n">routes</span>::<span class="n">health_route</span>::<span class="n">print_health_route</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// can also be called using</span>
+<span class="w">  </span><span class="k">super</span>::<span class="n">health_route</span>::<span class="n">print_health_route</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;user_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="use">use<a class="headerlink" href="#use" title="Permanent link">#</a></h2>
+<p>It would be tedious to use the fully qualified name or even the relative name in the above examples. In order to shorten the names, we can use the <code>use</code> keyword to bind the path to a new name or alias.</p>
+<blockquote>
+<p>The use keyword is used to shorten the module path</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_user_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">crate</span>::<span class="n">models</span>::<span class="n">user_model</span>::<span class="n">print_user_model</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;user_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>The above code can be refactored as:</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">models</span>::<span class="n">user_model</span>::<span class="n">print_user_model</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_user_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">print_user_model</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;user_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Instead of using the name <code>print_user_model</code>, we can also alias it to something else:</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">models</span>::<span class="n">user_model</span>::<span class="n">print_user_model</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">log_user_model</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_user_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">log_user_model</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;user_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="external-modules">External modules<a class="headerlink" href="#external-modules" title="Permanent link">#</a></h2>
+<p>Dependencies added to <code>Cargo.toml</code> are available globally to all modules inside the project. We don’t need to explicitly import or declare anything to use a dependency.</p>
+<blockquote>
+<p>External dependencies are globally available to all modules inside a project</p>
+</blockquote>
+<p>For example, let’s say we added the <a href="https://crates.io/crates/rand">rand</a> crate to our project. We can use it in our code directly as:</p>
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_health_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="n">random_number</span>: <span class="kt">u8</span> <span class="o">=</span><span class="w"> </span><span class="n">rand</span>::<span class="n">random</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">random_number</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;health_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>We can also use <code>use</code> to shorten the path:</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">rand</span>::<span class="n">random</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print_health_route</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="n">random_number</span>: <span class="kt">u8</span> <span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">random_number</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;health_route&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">#</a></h2>
+<ul>
+<li>The module system is explicit - there’s no 1:1 mapping with file system</li>
+<li>We declare a file as module in its parent, not in itself</li>
+<li>The <code>mod</code> keyword is used to declare submodules</li>
+<li>We need to explicitly declare functions, structs etc as public so they can be consumed in other modules</li>
+<li>The <code>pub</code> keyword makes things public</li>
+<li>The <code>use</code> keyword is used to shorten the module path</li>
+<li>We don’t need to explicitly declare 3<sup>rd</sup> party modules</li>
+</ul>
+<p>Thanks for reading! Feel free to follow me in <a href="https://twitter.com/sheshbabu">Twitter</a> for more posts like this :)</p>
+<p>Tagged under: <a href="https://www.sheshbabu.com/tags/Rust/">Rust</a>, <a href="https://www.sheshbabu.com/tags/Rust-Beginners/">Rust Beginners</a></p>
+<p>Published on: 19 Jul 2020</p>
+<p>© 2021 Sheshbabu Chinnakonda</p>
+                
+              
+              
+                
+
+
+  <h2 id="__comments">评论</h2>
+  <div id="disqus_thread"></div>
+<script src="https://utteranc.es/client.js"
+        repo="hexiaowen/hexiaowen.github.io"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../../../software/systemd/" class="md-footer__link md-footer__link--prev" aria-label="上一页: systemd" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              systemd
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../rust-ownership/" class="md-footer__link md-footer__link--next" aria-label="下一页: 所有权" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              所有权
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2016 - 2021 overweight
+          </div>
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/hexiaowen" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "navigation.indexes", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../../assets/javascripts/workers/search.fcfe8b6d.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+    
+  </body>
+</html>
